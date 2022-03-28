@@ -25,15 +25,15 @@ class Game {
         return phrasesObjects;
     }
 
+    getRandomPhrase() {
+        const i = Math.floor(Math.random() * this.phrases.length);
+        return this.phrases[i];
+    }
+
     startGame() {
         document.querySelector("#overlay").style.display = "none";
         this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
-    }
-
-    getRandomPhrase() {
-        const i = Math.floor(Math.random() * this.phrases.length);
-        return this.phrases[i];
     }
 
     removeLife() {
@@ -61,6 +61,29 @@ class Game {
         }
     }
 
+    handleKeyboardInteraction(e) {
+        const key = e.key.toLowerCase();
+        const buttons = document.querySelectorAll("#qwerty button");
+        for (let i = 0; i < buttons.length; i++) {
+            if (key === buttons[i].textContent) {
+                if (!buttons[i].disabled) {
+                    buttons[i].disabled = true;
+                    const targetLetter = buttons[i].textContent;
+                    if (this.activePhrase.phrase.includes(targetLetter)) {
+                        buttons[i].classList.add("chosen");
+                        this.activePhrase.showMatchedLetters(targetLetter);
+                        if (this.checkForWin()) {
+                            this.gameOver();
+                        }
+                    } else {
+                        buttons[i].classList.add("wrong");
+                        this.removeLife();
+                    }
+                }
+            }
+        }
+    }
+
     checkForWin() {
         const hiddenLetters = document.querySelectorAll(".hide");
         if (hiddenLetters.length > 0) {
@@ -77,10 +100,12 @@ class Game {
         if (this.missed >= 5) {
             overlayMessage.textContent = "You've Lost!"
             overlay.classList.remove("start");
+            overlay.classList.remove("win");
             overlay.classList.add("lose");
         } else {
             overlayMessage.textContent = "You've Won!"
             overlay.classList.remove("start");
+            overlay.classList.remove("lose");
             overlay.classList.add("win");
         }
     }

@@ -17,3 +17,7 @@ document.querySelector("#qwerty").addEventListener("click", e => {
         game1.handleInteraction(e);
     }
 })
+
+document.addEventListener("keyup", e => {
+    game1.handleKeyboardInteraction(e);
+})
