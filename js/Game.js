@@ -7,16 +7,10 @@ class Game {
     constructor() {
         this.missed = 0;
         this.phrases = this.createPhrases();
-        /* this.phrases = ['leave the atom alone',
-                        'the science of today is the technology of tomorrow',
-                        'something incredible is waiting to be known',
-                        'there is no law except the law that there is no law',
-                        'science never solves a problem without creating ten more']; */
         this.activePhrase = null;
     }
 
     createPhrases() {
-
         const phrasesObjects = [];
         const phrases = ['leave the atom alone',
                         'the science of today is the technology of tomorrow',
@@ -29,7 +23,6 @@ class Game {
             phrasesObjects.push(phraseObj);
         }
         return phrasesObjects;
-
     }
 
     startGame() {
@@ -50,6 +43,60 @@ class Game {
         this.missed++;
         if (this.missed >= 5) {
             this.gameOver();
+        }
+    }
+
+    handleInteraction(e) {
+        e.target.disabled = true;
+        const targetLetter = e.target.textContent;
+        if (this.activePhrase.phrase.includes(targetLetter)) {
+            e.target.classList.add("chosen");
+            this.activePhrase.showMatchedLetters(targetLetter);
+            if (this.checkForWin()) {
+                this.gameOver();
+            }
+        } else {
+            e.target.classList.add("wrong");
+            this.removeLife();
+        }
+    }
+
+    checkForWin() {
+        const hiddenLetters = document.querySelectorAll(".hide");
+        if (hiddenLetters.length > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    gameOver() {
+        const overlay = document.querySelector("#overlay");
+        const overlayMessage = document.querySelector("#game-over-message");
+        overlay.style.display = "flex";
+        if (this.missed >= 5) {
+            overlayMessage.textContent = "You've Lost!"
+            overlay.classList.remove("start");
+            overlay.classList.add("lose");
+        } else {
+            overlayMessage.textContent = "You've Won!"
+            overlay.classList.remove("start");
+            overlay.classList.add("win");
+        }
+    }
+
+    resetGame() {
+        document.querySelector("#phrase ul").innerHTML = "";
+        const buttons = document.querySelectorAll("#qwerty button");
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = false;
+            buttons[i].classList.remove("chosen");
+            buttons[i].classList.remove("wrong");
+            buttons[i].classList.add("key");
+        }
+        const imgs = document.querySelectorAll("img");
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].src = "images/liveHeart.png";
         }
     }
 }

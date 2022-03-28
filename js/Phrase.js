@@ -9,40 +9,32 @@ class Phrase {
     }
 
     addPhraseToDisplay() {
-        const phraseDiv = document.querySelector("#phrase");
-        const phraseArray = this.phrase.split("");
-        let phraseDivHTML = "";
-        
-        /* for (let i = 0; i < phraseArray.length; i++) {
-            const li = document.createElement("li");
-            if (phraseArray[i] === " ") {
-                li.innerHTML = `<li class="space"> </li>`;
-            } else {
-                li.innerHTML = `<li class="hide letter ${phraseArray[i]}">${phraseArray[i]}</li>`;
-            }
-            phraseDiv.appendChild(li);
-        } */
 
-        /* for (let i = 0; i < phraseArray.length; i++) {
-            const li = document.createElement("li");
-            if (phraseArray[i] === " ") {
-                li.textContent = " ";
-                li.classList.add("space");
-            } else {
-                li.textContent = `${phraseArray[i]}`;
-                li.classList.add(`hide letter ${phraseArray[i]}`);    
-            }
-            phraseDiv.appendChild(li);
-        } */
+        const phraseUl = document.querySelector("#phrase ul");
+        const phraseArray = this.phrase.split("");
+        let phraseUlHTML = "";
 
         for (let i = 0; i < phraseArray.length; i++) {
             
             if (phraseArray[i] === " ") {
-                phraseDivHTML += `<li class="space"> </li>`;
+                phraseUlHTML += `<li class="space"> </li>`;
             } else {
-                phraseDivHTML += `<li class="hide letter ${phraseArray[i]}">${phraseArray[i]}</li>`;
+                phraseUlHTML += `<li class="hide letter ${phraseArray[i]}">${phraseArray[i]}</li>`;
             }
         }
-        phraseDiv.innerHTML = phraseDivHTML;
+
+        phraseUl.innerHTML = phraseUlHTML;
+        
+    }
+
+    showMatchedLetters(targetLetter) {
+        const letters = document.querySelectorAll(".letter");
+        for (let i = 0; i < letters.length; i++) {
+            const className = letters[i].className;
+            if (className === `hide letter ${targetLetter}`) {
+                letters[i].classList.remove("hide");
+                letters[i].classList.add("show");
+            }
+        }
     }
 }
