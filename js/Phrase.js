@@ -8,12 +8,14 @@ class Phrase {
         this.phrase = phrase.toLowerCase();
     }
 
-    addPhraseToDisplay() {
 
+    /** 
+     * Creates HTML for every letter in the phrase.
+     */
+    addPhraseToDisplay() {
         const phraseUl = document.querySelector("#phrase ul");
         const phraseArray = this.phrase.split("");
         let phraseUlHTML = "";
-
         for (let i = 0; i < phraseArray.length; i++) {
             
             if (phraseArray[i] === " ") {
@@ -22,11 +24,14 @@ class Phrase {
                 phraseUlHTML += `<li class="hide letter ${phraseArray[i]}">${phraseArray[i]}</li>`;
             }
         }
-
-        phraseUl.innerHTML = phraseUlHTML;
-        
+        phraseUl.innerHTML = phraseUlHTML;  
     }
 
+    
+    /** 
+     * Checks if the selected letter has a match in the phrase, and in case there is shows the letter.
+     * @param {string} targetLetter - letter clicked by the user.
+     */
     showMatchedLetters(targetLetter) {
         const letters = document.querySelectorAll(".letter");
         for (let i = 0; i < letters.length; i++) {

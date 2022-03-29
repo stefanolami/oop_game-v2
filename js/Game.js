@@ -10,6 +10,11 @@ class Game {
         this.activePhrase = null;
     }
 
+
+    /** 
+     * Creates a phrase Object for every phrase in the array.
+     * @return  {array}  phrasesObjects - array of Phrase Objects
+     */
     createPhrases() {
         const phrasesObjects = [];
         const phrases = ['leave the atom alone',
@@ -25,17 +30,30 @@ class Game {
         return phrasesObjects;
     }
 
+
+    /** 
+     * Returns a random phrase from the phrases array.
+     * @return  {object}  phrase object in the phrases array.
+     */
     getRandomPhrase() {
         const i = Math.floor(Math.random() * this.phrases.length);
         return this.phrases[i];
     }
 
+
+    /** 
+     * Hides the overlay, selects a random phrase and adds it to the HTML.
+     */
     startGame() {
         document.querySelector("#overlay").style.display = "none";
         this.activePhrase = this.getRandomPhrase();
         this.activePhrase.addPhraseToDisplay();
     }
 
+
+    /** 
+     * Increases the missed count, takes the last Live Heart element and changes the picture to a lost one.
+     */
     removeLife() {
         const hearts = document.querySelectorAll("img[src='images/liveHeart.png']");
         const lastHeart = hearts[hearts.length - 1];
@@ -46,6 +64,11 @@ class Game {
         }
     }
 
+
+    /** 
+     * Disables the pushed button, changes its class, and calls a function depending if it's a match or not.
+     * @param   {Object}  e - event object.
+     */
     handleInteraction(e) {
         e.target.disabled = true;
         const targetLetter = e.target.textContent;
@@ -61,6 +84,11 @@ class Game {
         }
     }
 
+
+    /** 
+     * Like before but handles keyboard inputs.
+     * @param   {Object}  e - event object.
+     */
     handleKeyboardInteraction(e) {
         const key = e.key.toLowerCase();
         const buttons = document.querySelectorAll("#qwerty button");
@@ -84,6 +112,10 @@ class Game {
         }
     }
 
+
+    /** 
+     * Checks if there are still letters with the class "hide", or if all letters are shown.
+     */
     checkForWin() {
         const hiddenLetters = document.querySelectorAll(".hide");
         if (hiddenLetters.length > 0) {
@@ -93,6 +125,10 @@ class Game {
         }
     }
 
+
+    /** 
+     * Shows the overlay with colors and a message depending if the player won or lost.
+     */
     gameOver() {
         const overlay = document.querySelector("#overlay");
         const overlayMessage = document.querySelector("#game-over-message");
@@ -110,6 +146,10 @@ class Game {
         }
     }
 
+
+    /** 
+     * Resets all the phrase HTML. Enables all buttons and resets they're class to "key". Resets all the lives.
+     */
     resetGame() {
         document.querySelector("#phrase ul").innerHTML = "";
         const buttons = document.querySelectorAll("#qwerty button");
