@@ -76,7 +76,7 @@ class Game {
             e.target.classList.add("chosen");
             this.activePhrase.showMatchedLetters(targetLetter);
             if (this.checkForWin()) {
-                this.gameOver();
+                setTimeout(() => {this.gameOver()}, 2000);
             }
         } else {
             e.target.classList.add("wrong");
@@ -101,7 +101,7 @@ class Game {
                         buttons[i].classList.add("chosen");
                         this.activePhrase.showMatchedLetters(targetLetter);
                         if (this.checkForWin()) {
-                            this.gameOver();
+                            setTimeout(() => {this.gameOver()}, 2000);
                         }
                     } else {
                         buttons[i].classList.add("wrong");
